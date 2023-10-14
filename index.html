@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="theme.css">
+        <script src="script.js" defer></script>
+        <title>TODO APP</title>	
+    </head>	
+    <body>
+        <h1>My Notes</h1>
+        <div>
+            <label>Search:</label>
+            <input type="text" id="inputSearch" placeholder="Type Your seach here..."/>
+        </div>
+        <div id="todoListView"></div>
+        <form>
+            <label for="inputTitle">Title:</label>
+            <input type="text" id="inputTitle"/>
+            <label for="inputDescription">Description:</label>
+            <input type="text" id="inputDescription"/>
+            <label for="inputPlace">Place:</label>
+            <input type="text" id="inputPlace"/>
+            <label for="inputDate">Due date:</label>
+            <input type="date" id="inputDate"/>
+            <input type="button" value="add" onclick="addTodo()"/>
+        </form>
+    </body>
+</html>
