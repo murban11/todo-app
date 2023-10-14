@@ -1,6 +1,6 @@
 "use strict"
 
-let Task = function(title, description, place, dueDate) {
+let Todo = function(title, description, place, dueDate) {
     this.title = title;
     this.description = description;
     this.place = place;
@@ -9,26 +9,13 @@ let Task = function(title, description, place, dueDate) {
 
 let todoList = [];
 
-let initList = function() {
-    let savedList = window.localStorage.getItem("todos");
-
-    if (savedList != null) {
-        todoList = JSON.parse(savedList);
-    }
-}
-
 let addTodo = function() {
-    let inputTitle = document.getElementById("inputTitle");
-    let inputDescription = document.getElementById("inputDescription");
-    let inputPlace = document.getElementById("inputPlace");
-    let inputDate = document.getElementById("inputDate");
-
     todoList.push(
-        new Task(
-            inputTitle.value,
-            inputDescription.value,
-            inputPlace.value,
-            new Date(inputDate.value)
+        new Todo(
+            document.getElementById("inputTitle").value,
+            document.getElementById("inputDescription").value,
+            document.getElementById("inputPlace").value,
+            document.getElementById("inputDate").value
         )
     );
 
@@ -41,6 +28,14 @@ let deleteTodo = function(index) {
     window.localStorage.setItem("todos", JSON.stringify(todoList));
 }
 
+let restoreTodoList = function() {
+    let savedTodos = window.localStorage.getItem("todos");
+
+    if (savedTodos != null) {
+        todoList = JSON.parse(savedTodos);
+    }
+}
+
 let updateTodoList = function() {
     let todoListDiv = document.getElementById("todoListView");
 
@@ -49,15 +44,15 @@ let updateTodoList = function() {
     }
 
     let filterInput = document.getElementById("inputSearch");   
-    for (let todo in todoList) {
+    for (let idx in todoList) {
         if (
             (filterInput.value == "")
-                || (todoList[todo].title.includes(filterInput.value))
-                || (todoList[todo].description.includes(filterInput.value))
+                || (todoList[idx].title.includes(filterInput.value))
+                || (todoList[idx].description.includes(filterInput.value))
         ) {
             let newElement = document.createElement("p");
-            let newContent = document.createTextNode(todoList[todo].title
-                + " " + todoList[todo].description);
+            let newContent = document.createTextNode(todoList[idx].title
+                + " " + todoList[idx].description);
             newElement.appendChild(newContent);
             todoListDiv.appendChild(newElement);
 
@@ -65,14 +60,13 @@ let updateTodoList = function() {
             newDeleteButton.type = "button";
             newDeleteButton.value = "x";
             newDeleteButton.addEventListener("click", () => {
-                deleteTodo(todo)
+                deleteTodo(idx)
             });
             newElement.appendChild(newDeleteButton);
         }
     }
 }
 
-initList();
+restoreTodoList();
 updateTodoList();
-
 setInterval(updateTodoList, 1000);
