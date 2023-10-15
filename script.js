@@ -9,6 +9,57 @@ let Todo = function(title, description, place, dueDate) {
 
 let todoList = [];
 
+let restoreTodoList = function() {
+    try {
+        $.ajax({
+            url: BASE_URL,
+            type: 'GET',
+            headers: {
+                'X-Master-Key': SECRET_KEY
+            },
+            success: (data) => {
+                for (let r of data.record) {
+                    todoList.push(new Todo(
+                        r.title,
+                        r.description,
+                        r.place,
+                        new Date(r.dueDate)
+                    ));
+                }
+            },
+            error: (err) => {
+                console.log(err.responseJSON);
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        console.log(
+            "Make sure there is a `key.js` file in the project's root "
+            + "directory with the following content:\n"
+            + "const BASE_URL = \"<BIN_URL>\";\n"
+            + "const SECRET_KEY = \"<SECRET_KEY>\";\n"
+        );
+    }
+}
+
+let saveTodoList = function() {
+    $.ajax({
+        url: BASE_URL,
+        type: 'PUT',
+        headers: {
+            'X-Master-Key': SECRET_KEY
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(todoList),
+        success: (data) => {
+            console.log(data);
+        },
+        error: (err) => {
+            console.log(err.responseJSON);
+        }
+    });
+}
+
 let addTodo = function() {
     todoList.push(
         new Todo(
@@ -19,21 +70,13 @@ let addTodo = function() {
         )
     );
 
-    window.localStorage.setItem("todos", JSON.stringify(todoList));
+    saveTodoList();
 }
 
 let deleteTodo = function(index) {
     todoList.splice(index, 1);
 
-    window.localStorage.setItem("todos", JSON.stringify(todoList));
-}
-
-let restoreTodoList = function() {
-    let savedTodos = window.localStorage.getItem("todos");
-
-    if (savedTodos != null) {
-        todoList = JSON.parse(savedTodos);
-    }
+    saveTodoList();
 }
 
 let updateTodoList = function() {
