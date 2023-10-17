@@ -86,6 +86,8 @@ let updateTodoList = function() {
         todoListDiv.removeChild(todoListDiv.firstChild);
     }
 
+    let table = document.createElement("table");
+
     let filterInput = document.getElementById("inputSearch");   
     for (let idx in todoList) {
         if (
@@ -93,21 +95,33 @@ let updateTodoList = function() {
                 || (todoList[idx].title.includes(filterInput.value))
                 || (todoList[idx].description.includes(filterInput.value))
         ) {
-            let newElement = document.createElement("p");
-            let newContent = document.createTextNode(todoList[idx].title
-                + " " + todoList[idx].description);
-            newElement.appendChild(newContent);
-            todoListDiv.appendChild(newElement);
+            let titleCell = document.createElement("td");
+            let title = document.createTextNode(todoList[idx].title);
+            titleCell.appendChild(title);
 
-            let newDeleteButton = document.createElement("input");
-            newDeleteButton.type = "button";
-            newDeleteButton.value = "x";
-            newDeleteButton.addEventListener("click", () => {
-                deleteTodo(idx)
+            let descCell = document.createElement("td");
+            let desc = document.createTextNode(todoList[idx].description);
+            descCell.appendChild(desc);
+
+            let closeButtonCell = document.createElement("td");
+            let closeButton = document.createElement("input");
+            closeButton.type = "button";
+            closeButton.value = "X";
+            closeButton.addEventListener("click", () => {
+                deleteTodo(idx);
             });
-            newElement.appendChild(newDeleteButton);
+            closeButtonCell.appendChild(closeButton);
+
+            let row = document.createElement("tr");
+            row.appendChild(titleCell);
+            row.appendChild(descCell);
+            row.appendChild(closeButton);
+
+            table.appendChild(row);
         }
     }
+
+    todoListDiv.appendChild(table);
 }
 
 restoreTodoList();
