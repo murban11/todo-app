@@ -87,6 +87,7 @@ let updateTodoList = function() {
     }
 
     let table = document.createElement("table");
+    table.className = "container";
 
     let filterInput = document.getElementById("inputSearch");   
     for (let idx in todoList) {
@@ -96,15 +97,19 @@ let updateTodoList = function() {
                 || (todoList[idx].description.includes(filterInput.value))
         ) {
             let titleCell = document.createElement("td");
+            titleCell.className = "col";
             let title = document.createTextNode(todoList[idx].title);
             titleCell.appendChild(title);
 
             let descCell = document.createElement("td");
+            descCell.className = "col";
             let desc = document.createTextNode(todoList[idx].description);
             descCell.appendChild(desc);
 
             let closeButtonCell = document.createElement("td");
+            closeButtonCell.className = "col";
             let closeButton = document.createElement("input");
+            closeButton.className = "btn btn-danger";
             closeButton.type = "button";
             closeButton.value = "X";
             closeButton.addEventListener("click", () => {
@@ -113,9 +118,10 @@ let updateTodoList = function() {
             closeButtonCell.appendChild(closeButton);
 
             let row = document.createElement("tr");
+            row.className = "row";
             row.appendChild(titleCell);
             row.appendChild(descCell);
-            row.appendChild(closeButton);
+            row.appendChild(closeButtonCell);
 
             table.appendChild(row);
         }
