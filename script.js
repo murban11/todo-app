@@ -95,6 +95,7 @@ let updateTodoList = function() {
             (filterInput.value == "")
                 || (todoList[idx].title.includes(filterInput.value))
                 || (todoList[idx].description.includes(filterInput.value))
+                || (todoList[idx].place.includes(filterInput.value))
         ) {
             let titleCell = document.createElement("th");
             titleCell.className = "col text-center";
