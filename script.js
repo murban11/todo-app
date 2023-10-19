@@ -86,17 +86,18 @@ let updateTodoList = function() {
 
     let $table = $("<table>", {"class": "container"});
 
-    let $filterInput = $("#inputSearch");   
+    let searchText = $("#inputSearch").val().toLowerCase();
+
     let $startDate = $("#startDate");
     let $endDate = $("#endDate");
 
     for (let idx in todoList) {
         if (
             (
-                ($filterInput.val() === "")
-                || (todoList[idx].title.includes($filterInput.val()))
-                || (todoList[idx].description.includes($filterInput.val()))
-                || (todoList[idx].place.includes($filterInput.val()))
+                (searchText === "")
+                || (todoList[idx].title.toLowerCase().includes(searchText))
+                || (todoList[idx].description.toLowerCase().includes(searchText))
+                || (todoList[idx].place.toLowerCase().includes(searchText))
             ) && (
                 $startDate.val() === $startDate.prop("defaultValue")
                 || todoList[idx].dueDate.getTime() >= $startDate.prop("valueAsDate").getTime()
