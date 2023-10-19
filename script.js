@@ -106,6 +106,11 @@ let updateTodoList = function() {
             let desc = document.createTextNode(todoList[idx].description);
             descCell.appendChild(desc);
 
+            let placeCell = document.createElement("td");
+            placeCell.className = "col text-center";
+            let place = document.createTextNode(todoList[idx].place);
+            placeCell.appendChild(place);
+
             let dateCell = document.createElement("td");
             dateCell.className = "col text-center";
             let formattedDate = todoList[idx].dueDate.toLocaleString("pl-PL", {
@@ -132,6 +137,7 @@ let updateTodoList = function() {
             row.className = "row my-1";
             row.appendChild(titleCell);
             row.appendChild(descCell);
+            row.appendChild(placeCell);
             row.appendChild(dateCell);
             row.appendChild(closeButtonCell);
 
