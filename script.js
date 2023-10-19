@@ -96,18 +96,29 @@ let updateTodoList = function() {
                 || (todoList[idx].title.includes(filterInput.value))
                 || (todoList[idx].description.includes(filterInput.value))
         ) {
-            let titleCell = document.createElement("td");
-            titleCell.className = "col";
+            let titleCell = document.createElement("th");
+            titleCell.className = "col text-center";
             let title = document.createTextNode(todoList[idx].title);
             titleCell.appendChild(title);
 
             let descCell = document.createElement("td");
-            descCell.className = "col";
+            descCell.className = "col text-center";
             let desc = document.createTextNode(todoList[idx].description);
             descCell.appendChild(desc);
 
+            let dateCell = document.createElement("td");
+            dateCell.className = "col text-center";
+            let formattedDate = todoList[idx].dueDate.toLocaleString("pl-PL", {
+                day: "numeric",
+                month: "numeric",
+                year: "numeric",
+            });
+
+            let date = document.createTextNode(formattedDate);
+            dateCell.appendChild(date);
+
             let closeButtonCell = document.createElement("td");
-            closeButtonCell.className = "col";
+            closeButtonCell.className = "col text-center";
             let closeButton = document.createElement("input");
             closeButton.className = "btn btn-danger";
             closeButton.type = "button";
@@ -121,6 +132,7 @@ let updateTodoList = function() {
             row.className = "row";
             row.appendChild(titleCell);
             row.appendChild(descCell);
+            row.appendChild(dateCell);
             row.appendChild(closeButtonCell);
 
             table.appendChild(row);
