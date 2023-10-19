@@ -119,17 +119,17 @@ let updateTodoList = function() {
 
             let closeButtonCell = document.createElement("td");
             closeButtonCell.className = "col text-center";
-            let closeButton = document.createElement("input");
+            let closeButton = document.createElement("button");
             closeButton.className = "btn btn-danger";
             closeButton.type = "button";
-            closeButton.value = "X";
             closeButton.addEventListener("click", () => {
                 deleteTodo(idx);
             });
+            closeButton.innerHTML = '<span class="fa-solid fa-trash"></span>';
             closeButtonCell.appendChild(closeButton);
 
             let row = document.createElement("tr");
-            row.className = "row";
+            row.className = "row my-1";
             row.appendChild(titleCell);
             row.appendChild(descCell);
             row.appendChild(dateCell);

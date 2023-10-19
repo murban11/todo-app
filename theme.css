@@ -1,3 +1,26 @@
 body {
-    background-color: gray;
+    background-color: #F7768E;
+}
+
+main {
+    color: #C0CAF5;
+    background-color: #1A1B26;
+}
+
+.btn-primary {
+    background-color: #7AA2F7;
+    border-color: #7AA2F7;
+    color: #1A1B26;
+}
+
+.btn-danger {
+    background-color: #F7768E;
+    border-color: #F7768E;
+    color: #1A1B26;
+}
+
+input {
+    background-color: #A9B1D6;
+    border-color: #A9B1D6;
+    color: #1A1B26;
 }
