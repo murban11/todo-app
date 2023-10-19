@@ -63,10 +63,10 @@ let saveTodoList = function() {
 let addTodo = function() {
     todoList.push(
         new Todo(
-            document.getElementById("inputTitle").value,
-            document.getElementById("inputDescription").value,
-            document.getElementById("inputPlace").value,
-            document.getElementById("inputDate").value
+            $("#inputTitle").val(),
+            $("#inputDescription").val(),
+            $("#inputPlace").val(),
+            $("#inputDate").val()
         )
     );
 
@@ -80,79 +80,68 @@ let deleteTodo = function(index) {
 }
 
 let updateTodoList = function() {
-    let todoListDiv = document.getElementById("todoListView");
+    let $todoListDiv = $("#todoListView");
 
-    while (todoListDiv.firstChild) {
-        todoListDiv.removeChild(todoListDiv.firstChild);
-    }
+    $todoListDiv.children().remove()
 
-    let table = document.createElement("table");
-    table.className = "container";
+    let $table = $("<table>", {"class": "container"});
 
-    let filterInput = document.getElementById("inputSearch");   
-    let startDate = document.getElementById("startDate");
-    let endDate = document.getElementById("endDate");
+    let $filterInput = $("#inputSearch");   
+    let $startDate = $("#startDate");
+    let $endDate = $("#endDate");
+
     for (let idx in todoList) {
         if (
-            ((filterInput.value == "")
-                || (todoList[idx].title.includes(filterInput.value))
-                || (todoList[idx].description.includes(filterInput.value))
-                || (todoList[idx].place.includes(filterInput.value)))
-            && (startDate.value === startDate.defaultValue
-                || todoList[idx].dueDate.getTime() >= startDate.valueAsDate.getTime())
-            && (endDate.value === endDate.defaultValue
-                || todoList[idx].dueDate.getTime() <= endDate.valueAsDate.getTime())
+            (
+                ($filterInput.val() === "")
+                || (todoList[idx].title.includes($filterInput.val()))
+                || (todoList[idx].description.includes($filterInput.val()))
+                || (todoList[idx].place.includes($filterInput.val()))
+            ) && (
+                $startDate.val() === $startDate.prop("defaultValue")
+                || todoList[idx].dueDate.getTime() >= $startDate.prop("valueAsDate").getTime()
+            ) && (
+                $endDate.val() === $endDate.prop("defaultValue")
+                || todoList[idx].dueDate.getTime() <= $endDate.prop("valueAsDate").getTime()
+            )
         ) {
-            let titleCell = document.createElement("th");
-            titleCell.className = "col text-center";
-            let title = document.createTextNode(todoList[idx].title);
-            titleCell.appendChild(title);
+            let $titleCell = $("<th>", {"class": "col text-center"});
+            $titleCell.text(todoList[idx].title);
 
-            let descCell = document.createElement("td");
-            descCell.className = "col text-center";
-            let desc = document.createTextNode(todoList[idx].description);
-            descCell.appendChild(desc);
+            let $descCell = $("<td>", {"class": "col text-center"});
+            $descCell.text(todoList[idx].description);
 
-            let placeCell = document.createElement("td");
-            placeCell.className = "col text-center";
-            let place = document.createTextNode(todoList[idx].place);
-            placeCell.appendChild(place);
+            let $placeCell = $("<td>", {"class": "col text-center"});
+            $placeCell.text(todoList[idx].place);
 
-            let dateCell = document.createElement("td");
-            dateCell.className = "col text-center";
+            let $dateCell = $("<td>", {"class": "col text-center"});
             let formattedDate = todoList[idx].dueDate.toLocaleString("pl-PL", {
                 day: "numeric",
                 month: "numeric",
                 year: "numeric",
             });
+            $dateCell.text(formattedDate);
 
-            let date = document.createTextNode(formattedDate);
-            dateCell.appendChild(date);
-
-            let closeButtonCell = document.createElement("td");
-            closeButtonCell.className = "col text-center";
-            let closeButton = document.createElement("button");
-            closeButton.className = "btn btn-danger";
-            closeButton.type = "button";
-            closeButton.addEventListener("click", () => {
+            let $closeButtonCell = $("<td>", {"class": "col text-center"});
+            let $closeButton = $("<td>", {"type": "button", "class": "btn btn-danger"});
+            $closeButton.click("click", () => {
                 deleteTodo(idx);
             });
-            closeButton.innerHTML = '<span class="fa-solid fa-trash"></span>';
-            closeButtonCell.appendChild(closeButton);
+            $closeButton.html('<span class="fa-solid fa-trash"></span>');
+            $closeButtonCell.append($closeButton);
 
-            let row = document.createElement("tr");
-            row.className = "row my-1";
-            row.appendChild(titleCell);
-            row.appendChild(descCell);
-            row.appendChild(placeCell);
-            row.appendChild(dateCell);
-            row.appendChild(closeButtonCell);
+            let $row = $("<tr>", {"class": "row my-1"});
+            $row.append($titleCell);
+            $row.append($descCell);
+            $row.append($placeCell);
+            $row.append($dateCell);
+            $row.append($closeButtonCell);
 
-            table.appendChild(row);
+            $table.append($row);
         }
     }
 
-    todoListDiv.appendChild(table);
+    $todoListDiv.append($table);
 }
 
 restoreTodoList();
