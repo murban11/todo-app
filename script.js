@@ -1,5 +1,9 @@
 "use strict"
 
+$(".search").on("input", function() {
+    updateTodoList();
+});
+
 let Todo = function(title, description, place, dueDate) {
     this.title = title;
     this.description = description;
@@ -26,6 +30,7 @@ let restoreTodoList = function() {
                         new Date(r.dueDate)
                     ));
                 }
+                updateTodoList();
             },
             error: (err) => {
                 console.log(err.responseJSON);
@@ -71,12 +76,14 @@ let addTodo = function() {
     );
 
     saveTodoList();
+    updateTodoList();
 }
 
 let deleteTodo = function(index) {
     todoList.splice(index, 1);
 
     saveTodoList();
+    updateTodoList();
 }
 
 let updateTodoList = function() {
@@ -146,5 +153,3 @@ let updateTodoList = function() {
 }
 
 restoreTodoList();
-updateTodoList();
-setInterval(updateTodoList, 1000);
