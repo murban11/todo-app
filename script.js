@@ -90,12 +90,18 @@ let updateTodoList = function() {
     table.className = "container";
 
     let filterInput = document.getElementById("inputSearch");   
+    let startDate = document.getElementById("startDate");
+    let endDate = document.getElementById("endDate");
     for (let idx in todoList) {
         if (
-            (filterInput.value == "")
+            ((filterInput.value == "")
                 || (todoList[idx].title.includes(filterInput.value))
                 || (todoList[idx].description.includes(filterInput.value))
-                || (todoList[idx].place.includes(filterInput.value))
+                || (todoList[idx].place.includes(filterInput.value)))
+            && (startDate.value === startDate.defaultValue
+                || todoList[idx].dueDate.getTime() >= startDate.valueAsDate.getTime())
+            && (endDate.value === endDate.defaultValue
+                || todoList[idx].dueDate.getTime() <= endDate.valueAsDate.getTime())
         ) {
             let titleCell = document.createElement("th");
             titleCell.className = "col text-center";
